@@ -102,14 +102,13 @@ const updateCopyrightYear = () => {
 
 // Auto-calculate years of experience
 const updateExperience = () => {
-    // Start from internship at Zoho Schools (2020)
-    const startDate = new Date('2020-01-01');
+    // Start from internship (July 2021) to reflect combined Intern + Member TS tenure
+    const startDate = new Date('2021-07-01');
     const currentDate = new Date();
     
     const diffTime = Math.abs(currentDate - startDate);
     const diffYears = diffTime / (1000 * 60 * 60 * 24 * 365.25);
-    const yearsExp = Math.floor(diffYears);
-    const monthsExp = Math.floor((diffYears - yearsExp) * 12);
+    const yearsRounded = Math.max(1, Math.floor(diffYears)); // floor so combined tenure shows 4+ today
     
     // Update experience timeline
     const timelineDate = document.querySelector('.timeline-date');
@@ -126,7 +125,13 @@ const updateExperience = () => {
     // Update stats card with total experience (including internship)
     const statCard = document.querySelector('.stat-card h3');
     if (statCard && statCard.textContent.includes('+')) {
-        statCard.textContent = `${yearsExp}+`;
+        statCard.textContent = `${yearsRounded}+`;
+    }
+
+    // Keep About section years in sync
+    const experienceText = document.getElementById('experienceYearsText');
+    if (experienceText) {
+        experienceText.textContent = `${yearsRounded}+ years`;
     }
 };
 

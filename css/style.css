@@ -665,31 +665,31 @@ body {
 }
 
 .hero-content::before {
-    content: 'import { innovation } from "mindset";\A\Afunction buildFeature() {\A  const result = code\A    .write()\A    .test()\A    .deploy();\A  return result;\A}\A\A// Database Query\AUPDATE projects\ASET status = "deployed"\AWHERE quality = "excellent";';
+    content: 'import java.nio.file.*;\Aimport java.io.IOException;\A\APath src = Paths.get("/tmp/invoice.pdf");\APath dest = Paths.get("/archive/2025/invoice.pdf");\A\Atry (var channel = Files.newByteChannel(src)) {\A  Files.createDirectories(dest.getParent());\A  Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);\A  Files.delete(src);\A} catch (IOException ex) {\A  log.error("File move failed", ex);\A}';
     position: absolute;
     top: -100px;
     left: 50%;
     font-family: 'Courier New', monospace;
     font-size: 0.85rem;
     line-height: 1.6;
-    color: rgba(99, 102, 241, 0.5);
-    opacity: 0.12;
+    color: rgba(99, 102, 241, 0.68);
+    opacity: 0.22;
     white-space: pre;
     pointer-events: none;
-    filter: blur(2px);
+    filter: blur(1px);
     z-index: -1;
-    text-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
+    text-shadow: 0 0 14px rgba(99, 102, 241, 0.28);
     animation: codeFloat 18s ease-in-out infinite;
 }
 
 @keyframes codeFloat {
     0%, 100% {
         transform: translate(-50%, 0) rotate(-1deg);
-        opacity: 0.12;
+        opacity: 0.22;
     }
     50% {
         transform: translate(-50%, -25px) rotate(1deg);
-        opacity: 0.07;
+        opacity: 0.16;
     }
 }
 
@@ -983,6 +983,84 @@ section {
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
     background-clip: unset;
+}
+
+.stat-card.stat-backend h3 {
+    color: #000;
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+
+.stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.stat-icon svg,
+.stat-icon img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.me-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 42px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.me-icon img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.company-logo {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    width: auto;
+    vertical-align: middle;
+}
+
+.company-logo img {
+    height: 100%;
+    width: auto;
+    display: block;
+}
+
+.me-logo {
+    height: 26px;
+}
+
+.company-separator {
+    margin: 0 8px;
+    color: var(--text-secondary);
+    font-weight: 600;
 }
 
 .stat-card p {
