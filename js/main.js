@@ -145,13 +145,64 @@ setInterval(() => {
     updateExperience();
 }, 60000);
 
-// Download Resume functionality
+// Download resume from SmartBrowz WIRL endpoint and save as PDF
 const downloadResumeBtn = document.getElementById('downloadResume');
-if (downloadResumeBtn) {
-    downloadResumeBtn.addEventListener('click', function() {
-        // Wait for print dialog to open
+const resumeStatus = document.createElement('span');
+resumeStatus.className = 'download-status';
+resumeStatus.setAttribute('aria-live', 'polite');
+resumeStatus.style.marginLeft = '12px';
+resumeStatus.style.fontSize = '0.9rem';
+resumeStatus.style.color = '#64748b';
+
+if (downloadResumeBtn && downloadResumeBtn.parentElement) {
+    downloadResumeBtn.parentElement.appendChild(resumeStatus);
+}
+
+const resumeSource = 'https://filesv1-development.zohostratus.in/portfolio.pdf';
+
+const downloadResume = async () => {
+    if (!downloadResumeBtn) return;
+    const originalText = downloadResumeBtn.textContent;
+    downloadResumeBtn.disabled = true;
+    downloadResumeBtn.textContent = 'Preparing...';
+    resumeStatus.textContent = 'Downloading...';
+
+    try {
+        const response = await fetch(resumeSource, { mode: 'cors', cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error(`Unexpected status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+
+        // Fallback to opening the page if PDF is not served
+        if (blob.type && !blob.type.toLowerCase().includes('pdf')) {
+            window.open(resumeSource, '_blank', 'noopener');
+            return;
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Arun_Kumar_S_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+        resumeStatus.textContent = 'Download ready';
+    } catch (error) {
+        console.error('Resume download failed, opening source page instead.', error);
+        window.open(resumeSource, '_blank', 'noopener');
+        resumeStatus.textContent = 'Opening source page...';
+    } finally {
+        downloadResumeBtn.disabled = false;
+        downloadResumeBtn.textContent = originalText;
         setTimeout(() => {
-            window.print();
-        }, 300);
-    });
+            resumeStatus.textContent = '';
+        }, 1200);
+    }
+};
+
+if (downloadResumeBtn) {
+    downloadResumeBtn.addEventListener('click', downloadResume);
 }
